@@ -99,6 +99,34 @@
 
 ## 구현
 
+### 요구사항 충족여부 검증
+
+1. 판매자는 물건을 등록한다. (확인)   
+   ![image](https://user-images.githubusercontent.com/9324206/121140890-53f18c80-c875-11eb-92ef-50010e3f167f.png)
+
+2. 구매자는 판매자가 등록한 물건의 구매 요청 / 결제를 한다.   
+   ![image](https://user-images.githubusercontent.com/9324206/121141764-4c7eb300-c876-11eb-8452-2af8f7ad7f1b.png)
+```
+# kafka 
+{"eventType":"WtbAdded","timestamp":"20210608162608","wtbId":1,"paymentId":null,"state":"Requested","price":3000,"productId":1}
+```
+   
+3. 판매자는 구매자의 구매 요청을 수락 또는 거절 한다.   
+   ![image](https://user-images.githubusercontent.com/9324206/121146599-0bd56880-c87b-11eb-8fd1-f695a8323055.png)
+   
+4. 판매자가 수락한 요청은 '수락됨' 상태로 변경된다.   
+   ![image](https://user-images.githubusercontent.com/9324206/121146660-1c85de80-c87b-11eb-857f-794667c527ab.png)
+
+5. 판매자가 거절한 요청은 '거절됨' 상태로 변경된다.   
+   ![image](https://user-images.githubusercontent.com/9324206/121148487-ca45bd00-c87c-11eb-8ec7-e7c73ef92fb1.png)
+
+6. 구매자는 '수락됨' 상태의 요청의 완료처리를 할 수 있다.    
+   ![image](https://user-images.githubusercontent.com/9324206/121148909-26a8dc80-c87d-11eb-993c-318a7ed62e75.png)
+
+7. 구매요청이 완료처리되면 결제금액이 판매자에게 지급된다.
+8. 판매자가 거절한 요청의 결제금액은 환불된다.
+
+
 ### CheckPoint1. Saga
 
 ### CheckPoint2. CQRS
