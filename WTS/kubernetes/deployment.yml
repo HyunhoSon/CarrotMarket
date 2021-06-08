@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: WTS
+  labels:
+    app: WTS
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: WTS
+  template:
+    metadata:
+      labels:
+        app: WTS
+    spec:
+      containers:
+        - name: WTS
+          image: username/WTS:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5

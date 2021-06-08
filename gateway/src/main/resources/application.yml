@@ -1,0 +1,74 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: WTS
+          uri: http://localhost:8081
+          predicates:
+            - Path=/wtbInboxes/** 
+        - id: WTB
+          uri: http://localhost:8082
+          predicates:
+            - Path=/wtbs/** 
+        - id: Pay
+          uri: http://localhost:8083
+          predicates:
+            - Path=/payments/** 
+        - id: Viewer
+          uri: http://localhost:8084
+          predicates:
+            - Path= /myPages/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: WTS
+          uri: http://WTS:8080
+          predicates:
+            - Path=/wtbInboxes/** 
+        - id: WTB
+          uri: http://WTB:8080
+          predicates:
+            - Path=/wtbs/** 
+        - id: Pay
+          uri: http://Pay:8080
+          predicates:
+            - Path=/payments/** 
+        - id: Viewer
+          uri: http://Viewer:8080
+          predicates:
+            - Path= /myPages/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
