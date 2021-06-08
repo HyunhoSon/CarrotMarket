@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PolicyHandler{
     @Autowired WtbInboxRepository wtbInboxRepository;
+    @Autowired WtsRepository wtsRepository;
 
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverWtbAdded_NewWtBtoInbox(@Payload WtbAdded wtbAdded){
@@ -22,6 +23,8 @@ public class PolicyHandler{
         // Sample Logic //
         WtbInbox wtbInbox = new WtbInbox();
         wtbInboxRepository.save(wtbInbox);
+        Wts wts = new Wts();
+        wtsRepository.save(wts);
             
     }
 
