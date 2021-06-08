@@ -123,8 +123,15 @@
 6. 구매자는 '수락됨' 상태의 요청의 완료처리를 할 수 있다.    
    ![image](https://user-images.githubusercontent.com/9324206/121148909-26a8dc80-c87d-11eb-993c-318a7ed62e75.png)
 
-7. 구매요청이 완료처리되면 결제금액이 판매자에게 지급된다.
-8. 판매자가 거절한 요청의 결제금액은 환불된다.
+7. 구매요청이 완료처리되면 결제금액이 판매자에게 지급된다.   
+   ![image](https://user-images.githubusercontent.com/9324206/121150956-ee0a0280-c87e-11eb-8ac0-0e5d84d51790.png)   
+   Pay Log 에 판매자 지급 사항 표기   
+   ![image](https://user-images.githubusercontent.com/9324206/121151041-ff530f00-c87e-11eb-9afe-e74b6ca8d7f2.png)
+
+8. 판매자가 거절한 요청의 결제금액은 환불된다.   
+   ![image](https://user-images.githubusercontent.com/9324206/121150429-7dfb7c80-c87e-11eb-94f7-3cea8e26fed3.png)   
+   Pay Log 에 환불 사항 표기   
+   ![image](https://user-images.githubusercontent.com/9324206/121150283-560c1900-c87e-11eb-88a6-3d1d7ca31f28.png)
 
 
 ### CheckPoint1. Saga
