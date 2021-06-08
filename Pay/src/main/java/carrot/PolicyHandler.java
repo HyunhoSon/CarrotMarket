@@ -19,9 +19,9 @@ public class PolicyHandler{
 
         System.out.println("\n\n##### listener SendToSeller : " + dealFinished.toJson() + "\n\n");
 
-        // Sample Logic //
-        Payment payment = new Payment();
-        paymentRepository.save(payment);
+        Long wtbId = dealFinished.getWtbId();
+        Payment payment = paymentRepository.findByWtbId(wtbId);
+        System.out.println("**** Send To Seller "+ payment.getPrice() + "  Bcs WTB " + wtbId + "is Finished ****" );
             
     }
     @StreamListener(KafkaProcessor.INPUT)
@@ -31,10 +31,9 @@ public class PolicyHandler{
 
         System.out.println("\n\n##### listener Refund : " + wtbRejected.toJson() + "\n\n");
 
-        // Sample Logic //
-        Payment payment = new Payment();
-        paymentRepository.save(payment);
-            
+        Long wtbId = wtbRejected.getWtbId();
+        Payment payment = paymentRepository.findByWtbId(wtbId);
+        System.out.println("**** Refund "+ payment.getPrice() + "  Bcs WTB " + wtbId + "is Rejected ****" );
     }
 
 

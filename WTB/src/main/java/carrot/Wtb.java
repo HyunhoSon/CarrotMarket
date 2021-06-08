@@ -1,6 +1,8 @@
 package carrot;
 
 import javax.persistence.*;
+import javax.print.attribute.standard.Finishings;
+
 import org.springframework.beans.BeanUtils;
 import java.util.List;
 import java.util.Date;
@@ -17,28 +19,31 @@ public class Wtb {
 
     @PostUpdate
     public void onPostUpdate(){
-        DealFinished dealFinished = new DealFinished();
-        BeanUtils.copyProperties(this, dealFinished);
-        dealFinished.publishAfterCommit();
 
-
+        if(this.state.equals("Finished"))
+        {
+            DealFinished dealFinished = new DealFinished();
+            BeanUtils.copyProperties(this, dealFinished);
+            dealFinished.publishAfterCommit();
+        }
+        
     }
 
-    @PrePersist
-    public void onPrePersist(){
-        WtbAdded wtbAdded = new WtbAdded();
-        BeanUtils.copyProperties(this, wtbAdded);
-        wtbAdded.publishAfterCommit();
 
-        //Following code causes dependency to external APIs
-        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
-
+    @PostPersist
+    public void onPostPersist(){
+        
         carrot.external.Payment payment = new carrot.external.Payment();
-        // mappings goes here
-        Application.applicationContext.getBean(carrot.external.PaymentService.class)
+        payment.setWtbId(this.wtbId);
+        payment.setPrice(10000);
+
+        WtbApplication.applicationContext.getBean(carrot.external.PaymentService.class)
             .pay(payment);
 
 
+        WtbAdded wtbAdded = new WtbAdded();
+        BeanUtils.copyProperties(this, wtbAdded);
+        wtbAdded.publishAfterCommit();
     }
 
 

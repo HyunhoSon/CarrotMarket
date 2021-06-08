@@ -2,8 +2,6 @@ package carrot;
 
 import javax.persistence.*;
 import org.springframework.beans.BeanUtils;
-import java.util.List;
-import java.util.Date;
 
 @Entity
 @Table(name="WtbInbox_table")
@@ -13,21 +11,32 @@ public class WtbInbox {
     private Long wtbId;
     private Long paymentId;
     private Long productId;
+    private String state;
 
     @PostUpdate
     public void onPostUpdate(){
-        WtbAccepted wtbAccepted = new WtbAccepted();
-        BeanUtils.copyProperties(this, wtbAccepted);
-        wtbAccepted.publishAfterCommit();
 
-
-        WtbRejected wtbRejected = new WtbRejected();
-        BeanUtils.copyProperties(this, wtbRejected);
-        wtbRejected.publishAfterCommit();
-
+        if(state.equals("Accepted")){
+            WtbAccepted wtbAccepted = new WtbAccepted();
+            BeanUtils.copyProperties(this, wtbAccepted);
+            wtbAccepted.publishAfterCommit();
+        }
+        
+        if(state.equals("Rejected")){
+            WtbRejected wtbRejected = new WtbRejected();
+            BeanUtils.copyProperties(this, wtbRejected);
+            wtbRejected.publishAfterCommit();
+        }
 
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public Long getInboxId() {
         return inboxId;

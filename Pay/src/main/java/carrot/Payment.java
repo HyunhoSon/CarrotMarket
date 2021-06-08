@@ -13,7 +13,7 @@ public class Payment {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long paymentId;
     private Integer price;
-
+    private Long wtbId;
 
     public Long getPaymentId() {
         return paymentId;
@@ -28,6 +28,14 @@ public class Payment {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public Long getWtbId() {
+        return wtbId;
+    }
+
+    public void setWtbId(Long wtbId) {
+        this.wtbId = wtbId;
     }
 
 
