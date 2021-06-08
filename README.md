@@ -62,7 +62,7 @@
 
 * Policy 부착
 
-![image](https://user-images.githubusercontent.com/9324206/121127432-bbeba700-c864-11eb-8cc9-6e19833e4b9c.png)
+![image](https://user-images.githubusercontent.com/9324206/121127432-bbeba700-c864-11eb-8cc9-6e19833e4b9c.png){: height="60%"}
 
 * Aggregate / Boundary Context 추가 (1차 완성)
 
