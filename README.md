@@ -95,6 +95,8 @@
 
 ### Hexagonal Architecture
 
+![image](https://user-images.githubusercontent.com/9324206/121131408-b6915b00-c86a-11eb-8e1a-2abb7c67f83f.png)
+
 ## 구현
 
 ### CheckPoint1. Saga
