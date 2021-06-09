@@ -11,7 +11,7 @@ spring:
         - id: WTS
           uri: http://localhost:8081
           predicates:
-            - Path=/wtbInboxes/**/wts/** 
+            - Path=/wtbInboxes/**,/wts/** 
         - id: WTB
           uri: http://localhost:8082
           predicates:
@@ -46,7 +46,7 @@ spring:
         - id: WTS
           uri: http://WTS:8080
           predicates:
-            - Path=/wtbInboxes/**/wts/** 
+            - Path=/wtbInboxes/**,/wts/** 
         - id: WTB
           uri: http://WTB:8080
           predicates:

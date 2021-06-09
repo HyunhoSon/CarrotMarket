@@ -19,8 +19,8 @@ public class PolicyHandler{
 
         System.out.println("\n\n##### listener StateChangeWtb : " + wtbAccepted.toJson() + "\n\n");
 
-        // Sample Logic //
-        Wtb wtb = new Wtb();
+        Wtb wtb = wtbRepository.findByWtbId(wtbAccepted.getWtbId());
+        wtb.setState("Accepted");
         wtbRepository.save(wtb);
             
     }
@@ -31,8 +31,8 @@ public class PolicyHandler{
 
         System.out.println("\n\n##### listener StateChangeWtb : " + wtbRejected.toJson() + "\n\n");
 
-        // Sample Logic //
-        Wtb wtb = new Wtb();
+        Wtb wtb = wtbRepository.findByWtbId(wtbRejected.getWtbId());
+        wtb.setState("Rejected");
         wtbRepository.save(wtb);
             
     }

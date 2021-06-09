@@ -7,6 +7,8 @@ import org.springframework.beans.BeanUtils;
 @Table(name="WtbInbox_table")
 public class WtbInbox {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long inboxId;
     private Long wtbId;
     private Long paymentId;

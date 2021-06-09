@@ -10,7 +10,8 @@ import java.util.Date;
 @Entity
 @Table(name="Wtb_table")
 public class Wtb {
-
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long wtbId;
     private Long paymentId;
     private String state;
@@ -37,13 +38,23 @@ public class Wtb {
         payment.setWtbId(this.wtbId);
         payment.setPrice(10000);
 
-        WtbApplication.applicationContext.getBean(carrot.external.PaymentService.class)
+        try{
+            WtbApplication.applicationContext.getBean(carrot.external.PaymentService.class)
             .pay(payment);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            return;
+        }
 
+        this.state="Requested";
 
         WtbAdded wtbAdded = new WtbAdded();
         BeanUtils.copyProperties(this, wtbAdded);
         wtbAdded.publishAfterCommit();
+
+        
     }
 
 

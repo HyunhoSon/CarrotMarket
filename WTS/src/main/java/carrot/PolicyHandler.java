@@ -20,12 +20,12 @@ public class PolicyHandler{
 
         System.out.println("\n\n##### listener NewWtBtoInbox : " + wtbAdded.toJson() + "\n\n");
 
-        // Sample Logic //
         WtbInbox wtbInbox = new WtbInbox();
+        wtbInbox.setWtbId(wtbAdded.getWtbId());
+        wtbInbox.setProductId(wtbAdded.getProductId());
+        wtbInbox.setState("Pending");
+        
         wtbInboxRepository.save(wtbInbox);
-        Wts wts = new Wts();
-        wtsRepository.save(wts);
-            
     }
 
 
