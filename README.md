@@ -95,7 +95,7 @@
 
 ### Hexagonal Architecture
 
-![image](https://user-images.githubusercontent.com/9324206/121131408-b6915b00-c86a-11eb-8e1a-2abb7c67f83f.png)
+![image](https://user-images.githubusercontent.com/9324206/121386599-19771500-c985-11eb-8b7b-d6f0319cb875.png)
 
 ## 구현
 
