@@ -133,16 +133,132 @@
    Pay Log 에 환불 사항 표기   
    ![image](https://user-images.githubusercontent.com/9324206/121150283-560c1900-c87e-11eb-88a6-3d1d7ca31f28.png)
 
+> 비기능적 요구사항은 아래 Check Point 의 해당 항목으로 대체.
 
-### CheckPoint1. Saga
+
+### CheckPoint1. Saga   
+
+이벤트 Pub / Sub 구현   
+
+* Publish   
+WTB :: Wtb.java / wtbAdded Event Publish 구현부
+![image](https://user-images.githubusercontent.com/9324206/121379163-be422400-c97e-11eb-8245-fb338df727ec.png)   
+
+* Subscribe   
+WTS :: PolicyHandler.java / wtbAdded Event Subscribe 구현부   
+![image](https://user-images.githubusercontent.com/9324206/121379492-08c3a080-c97f-11eb-9044-ce8b6fe48aeb.png)
 
 ### CheckPoint2. CQRS
 
+CQRS 패턴에 따라 Command 와 Query 를 분리하여, myPage를 통해 구매요청건(WTB)의 조회가 가능하다.   
+MyPage의 Content Id는 구매요청건(WTB)의 Id 를 그대로 사용하도록 하여 구매요청건 별로 조회가 가능하도록 하였다.
+* 최초 구매요청 시 MyPage 1번 항목 조회 결과 (state : Requested)   
+![image](https://user-images.githubusercontent.com/9324206/121380647-031a8a80-c980-11eb-8e22-6cf9b202a2d5.png)   
+
+* 구매요청건 수락 시 MyPage의 1번 항목 조회 결과 (state : Accepted)   
+![image](https://user-images.githubusercontent.com/9324206/121380847-2e04de80-c980-11eb-8a7f-ead065be7e9c.png)
+
+
 ### CheckPoint3. Correlation
 
-### CheckPoint4. Req/Resp
+데이터의 흐름이 구매요청건(WTB) 를 중심으로 이루어 지므로, wtbId를 Correlation Key 로 사용하여 처리건을 식별하였다.    
+결제 서비스 :: 구매요청 완료 후 결제 금액을 판매자에게 전송하는 부분. wtbId 로 결제건을 식별하여 처리한다.   
+![image](https://user-images.githubusercontent.com/9324206/121382157-4cb7a500-c981-11eb-9321-b39b5a47ed4a.png)
 
-### CheckPoint5. Gateway
+
+### CheckPoint4. Req/Resp    
+
+비기능적 요구사항 \[1. 구매자는 구매 요청시에 결제를 끝내야 한다.] 를 만족시키기 위해   
+주문요청 생성 --> 결제 처리 간의 처리방식을 Req/Resp 로 구현하였으며, RestRepository를 이용하였다.   
+* WTB :: payment 신규 생성 Req/Resp 방식 호출부   
+![image](https://user-images.githubusercontent.com/9324206/121382876-fac34f00-c981-11eb-9280-8435810b89a7.png)
+
+* WTB :: PaymentService.java / RESTful 함수 FeignClient 정의부   
+![image](https://user-images.githubusercontent.com/9324206/121383231-4249db00-c982-11eb-95b6-8a04a72ac50e.png)
+
+
+### CheckPoint5. Gateway   
+API Gateway를 적용하여, MicroService의 진입점을 단일화 하였다.   
+* Default Profile : 8088 Port, http://URL:8088/{context}
+* Docker Profile : 8080 Port, http://URL:8080/{context}   
+
+```
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: WTS
+          uri: http://localhost:8081
+          predicates:
+            - Path=/wtbInboxes/**,/wts/** 
+        - id: WTB
+          uri: http://localhost:8082
+          predicates:
+            - Path=/wtbs/** 
+        - id: Pay
+          uri: http://localhost:8083
+          predicates:
+            - Path=/payments/** 
+        - id: Viewer
+          uri: http://localhost:8084
+          predicates:
+            - Path= /myPages/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: WTS
+          uri: http://WTS:8080
+          predicates:
+            - Path=/wtbInboxes/**,/wts/** 
+        - id: WTB
+          uri: http://WTB:8080
+          predicates:
+            - Path=/wtbs/** 
+        - id: Pay
+          uri: http://Pay:8080
+          predicates:
+            - Path=/payments/** 
+        - id: Viewer
+          uri: http://Viewer:8080
+          predicates:
+            - Path= /myPages/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
+
+```
 
 ### CheckPoint6. Polyglot
 
