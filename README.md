@@ -312,6 +312,60 @@ docker push skcchhson.azurecr.io/viewer:latest           # Docker Push to Azure 
 
 ```
 
+* Yaml 파일을 이용한 Deployment   
+
+```
+# WTB/kubernetes/deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wtb
+  labels:
+    app: wtb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wtb
+  template:
+    metadata:
+      labels:
+        app: wtb
+    spec:
+      containers:
+        - name: wtb
+          image: skcchhson.azurecr.io/wtb:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+          resources:
+            requests:
+              cpu: 300m
+              # memory: 256Mi
+            limits:
+              cpu: 500m
+```
+
+* Deploy 완료   
+![image](https://user-images.githubusercontent.com/9324206/121811705-260aae80-cca0-11eb-9060-d090830400e6.png)
+
+
 
 ### CheckPoint8. Circuit Breaker
 
