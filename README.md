@@ -266,8 +266,7 @@ server:
 그 외 서비스는 (h2 사용)
 
 * Viewer 의 application.yml   
-![image](https://user-images.githubusercontent.com/9324206/121798354-b9bc8a80-cc60-11eb-812f-4b07338d3f7c.png)
-
+![image](https://user-images.githubusercontent.com/9324206/121798404-0f913280-cc61-11eb-84be-ec1abb358d28.png)
 
 * MySQL 조회 결과   
 ![image](https://user-images.githubusercontent.com/9324206/121798279-4fa3e580-cc60-11eb-9362-af6dd2f8307f.png)
