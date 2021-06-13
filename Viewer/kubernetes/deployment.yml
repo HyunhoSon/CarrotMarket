@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: Viewer
+  name: viewer
   labels:
-    app: Viewer
+    app: viewer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: Viewer
+      app: viewer
   template:
     metadata:
       labels:
-        app: Viewer
+        app: viewer
     spec:
       containers:
-        - name: Viewer
-          image: skcchhson.azurecr.io/Viewer:latest
+        - name: viewer
+          image: skcchhson.azurecr.io/viewer:latest
           ports:
             - containerPort: 8080
           readinessProbe:

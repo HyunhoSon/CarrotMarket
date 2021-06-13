@@ -1,22 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: WTS
+  name: wts
   labels:
-    app: WTS
+    app: wts
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: WTS
+      app: wts
   template:
     metadata:
       labels:
-        app: WTS
+        app: wts
     spec:
       containers:
-        - name: WTS
-          image: skcchhson.azurecr.io/WTS:latest
+        - name: wts
+          image: skcchhson.azurecr.io/wts:latest
+          volumeMounts:
+            - mountPath: "/data"
+              name: wts-vol
           ports:
             - containerPort: 8080
           readinessProbe:
@@ -36,8 +39,11 @@ spec:
             periodSeconds: 5
             failureThreshold: 5
           resources:
-            request:
+            requests:
               cpu: 200m
             limits:
               cpu: 500m
-              
+      volumes:
+        - name: wts-vol
+          persistentVolumeClaim:
+            claimName: wts-pvc

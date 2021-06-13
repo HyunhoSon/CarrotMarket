@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: WTS
+  name: wts
   labels:
-    app: WTS
+    app: wts
 spec:
   ports:
     - port: 8080
       targetPort: 8080
   selector:
-    app: WTS
+    app: wts

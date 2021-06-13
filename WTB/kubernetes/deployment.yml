@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: WTB
+  name: wtb
   labels:
-    app: WTB
+    app: wtb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: WTB
+      app: wtb
   template:
     metadata:
       labels:
-        app: WTB
+        app: wtb
     spec:
       containers:
-        - name: WTB
-          image: skcchhson.azurecr.io/WTB:latest
+        - name: wtb
+          image: skcchhson.azurecr.io/wtb:latest
           ports:
             - containerPort: 8080
           readinessProbe:
