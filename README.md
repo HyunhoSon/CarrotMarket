@@ -396,22 +396,22 @@ spec:
 ```
 
 * deployment.yaml   
-** Mount Path 지정   
+  * Mount Path 지정   
 ![image](https://user-images.githubusercontent.com/9324206/121813035-4d17af00-cca5-11eb-9ab2-cbc962ec435c.png)
-** Mount 할 Volume 정보 지정   
+  * Mount 할 Volume 정보 지정   
 ![image](https://user-images.githubusercontent.com/9324206/121813061-720c2200-cca5-11eb-980e-78f2e6f7f430.png)
 
 
 * application.yaml
-** Docker Profile 의 h2 DB 경로 설정   
+  * Docker Profile 의 h2 DB 경로 설정   
 ![image](https://user-images.githubusercontent.com/9324206/121813097-8b14d300-cca5-11eb-9bbc-a6e2597b8d9f.png)
 
 * 정상 Mount 확인 (kubectl exec 이용)
-** ls 로 디렉터리 확인   
+  * ls 로 디렉터리 확인   
 ![image](https://user-images.githubusercontent.com/9324206/121813174-cfa06e80-cca5-11eb-9deb-53c7716b01f1.png)
-** df 로 Mount 확인   
+  * df 로 Mount 확인   
 ![image](https://user-images.githubusercontent.com/9324206/121813189-e6df5c00-cca5-11eb-916d-863982bd7eb9.png)
-** 해당 경로 내 db 파일 생성 확인   
+  * 해당 경로 내 db 파일 생성 확인   
 ![image](https://user-images.githubusercontent.com/9324206/121813214-08d8de80-cca6-11eb-956e-650ee5d0c362.png)
 
 
