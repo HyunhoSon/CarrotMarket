@@ -377,3 +377,16 @@ spec:
 
 ### CheckPoint12. Self-healing (Liveness Probe)
 
+* WTB Service Liveness Probe Port 변경 --> 9090   
+![image](https://user-images.githubusercontent.com/9324206/121811923-f1e3bd80-cca0-11eb-8eee-269535bab61c.png)
+
+* 재배포(Deploy) 후 Pod Restart 확인
+
+![image](https://user-images.githubusercontent.com/9324206/121812093-9a921d00-cca1-11eb-83e9-64c41ef03860.png)
+
+
+* Restart 원인 Liveness Probe 확인
+
+![image](https://user-images.githubusercontent.com/9324206/121812124-b4336480-cca1-11eb-8b66-ae5f11b5624e.png)
+
+
