@@ -292,23 +292,23 @@ docker push skcchhson.azurecr.io/gateway:latest           # Docker Push to Azure
 
 cd ../WTB
 mvn package         # Maven Packaging
-docker build -t skcchhson.azurecr.io/WTB:latest .     # Docker Build
-docker push skcchhson.azurecr.io/WTB:latest           # Docker Push to Azure Container Registry
+docker build -t skcchhson.azurecr.io/wtb:latest .     # Docker Build
+docker push skcchhson.azurecr.io/wtb:latest           # Docker Push to Azure Container Registry
 
 cd ../WTS
 mvn package         # Maven Packaging
-docker build -t skcchhson.azurecr.io/WTS:latest .     # Docker Build
-docker push skcchhson.azurecr.io/WTS:latest           # Docker Push to Azure Container Registry
+docker build -t skcchhson.azurecr.io/wts:latest .     # Docker Build
+docker push skcchhson.azurecr.io/wts:latest           # Docker Push to Azure Container Registry
 
 cd ../Pay
 mvn package         # Maven Packaging
-docker build -t skcchhson.azurecr.io/Pay:latest .     # Docker Build
-docker push skcchhson.azurecr.io/Pay:latest           # Docker Push to Azure Container Registry
+docker build -t skcchhson.azurecr.io/pay:latest .     # Docker Build
+docker push skcchhson.azurecr.io/pay:latest           # Docker Push to Azure Container Registry
 
 cd ../Viewer
 mvn package         # Maven Packaging
-docker build -t skcchhson.azurecr.io/Viewer:latest .     # Docker Build
-docker push skcchhson.azurecr.io/Viewer:latest           # Docker Push to Azure Container Registry
+docker build -t skcchhson.azurecr.io/viewer:latest .     # Docker Build
+docker push skcchhson.azurecr.io/viewer:latest           # Docker Push to Azure Container Registry
 
 ```
 
