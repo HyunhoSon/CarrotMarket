@@ -95,7 +95,7 @@
 
 ### Hexagonal Architecture
 
-![image](https://user-images.githubusercontent.com/9324206/121131408-b6915b00-c86a-11eb-8e1a-2abb7c67f83f.png)
+![image](https://user-images.githubusercontent.com/9324206/121386599-19771500-c985-11eb-8b7b-d6f0319cb875.png)
 
 ## 구현
 
@@ -262,9 +262,110 @@ server:
 
 ### CheckPoint6. Polyglot
 
+타 서비스와 별개로 Viewer 서비스는 sql db를 사용하였다.
+그 외 서비스는 (h2 사용)
+
+* Viewer 의 application.yml   
+![image](https://user-images.githubusercontent.com/9324206/121798404-0f913280-cc61-11eb-84be-ec1abb358d28.png)
+
+* MySQL 조회 결과   
+![image](https://user-images.githubusercontent.com/9324206/121798279-4fa3e580-cc60-11eb-9362-af6dd2f8307f.png)
+
+
 ## 운영
 
 ### CheckPoint7. Deploy/ Pipeline
+
+* git 으로부터 소스 pull   
+
+```
+git clone https://github.com/HyunhoSon/CarrotMarket.git
+```
+
+* Maven Packaging / Docker Build, Push
+```
+
+cd /gateway
+mvn package         # Maven Packaging
+docker build -t skcchhson.azurecr.io/gateway:latest .     # Docker Build
+docker push skcchhson.azurecr.io/gateway:latest           # Docker Push to Azure Container Registry
+
+cd ../WTB
+mvn package         # Maven Packaging
+docker build -t skcchhson.azurecr.io/wtb:latest .     # Docker Build
+docker push skcchhson.azurecr.io/wtb:latest           # Docker Push to Azure Container Registry
+
+cd ../WTS
+mvn package         # Maven Packaging
+docker build -t skcchhson.azurecr.io/wts:latest .     # Docker Build
+docker push skcchhson.azurecr.io/wts:latest           # Docker Push to Azure Container Registry
+
+cd ../Pay
+mvn package         # Maven Packaging
+docker build -t skcchhson.azurecr.io/pay:latest .     # Docker Build
+docker push skcchhson.azurecr.io/pay:latest           # Docker Push to Azure Container Registry
+
+cd ../Viewer
+mvn package         # Maven Packaging
+docker build -t skcchhson.azurecr.io/viewer:latest .     # Docker Build
+docker push skcchhson.azurecr.io/viewer:latest           # Docker Push to Azure Container Registry
+
+```
+
+* Yaml 파일을 이용한 Deployment   
+
+```
+# WTB/kubernetes/deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wtb
+  labels:
+    app: wtb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wtb
+  template:
+    metadata:
+      labels:
+        app: wtb
+    spec:
+      containers:
+        - name: wtb
+          image: skcchhson.azurecr.io/wtb:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+          resources:
+            requests:
+              cpu: 300m
+              # memory: 256Mi
+            limits:
+              cpu: 500m
+```
+
+* Deploy 완료   
+![image](https://user-images.githubusercontent.com/9324206/121811705-260aae80-cca0-11eb-9060-d090830400e6.png)
+
+
 
 ### CheckPoint8. Circuit Breaker
 
@@ -275,4 +376,17 @@ server:
 ### CheckPoint11. Config Map/ Persistence Volume
 
 ### CheckPoint12. Self-healing (Liveness Probe)
+
+* WTB Service Liveness Probe Port 변경 --> 9090   
+![image](https://user-images.githubusercontent.com/9324206/121811923-f1e3bd80-cca0-11eb-8eee-269535bab61c.png)
+
+* 재배포(Deploy) 후 Pod Restart 확인
+
+![image](https://user-images.githubusercontent.com/9324206/121812093-9a921d00-cca1-11eb-83e9-64c41ef03860.png)
+
+
+* Restart 원인 Liveness Probe 확인
+
+![image](https://user-images.githubusercontent.com/9324206/121812124-b4336480-cca1-11eb-8b66-ae5f11b5624e.png)
+
 
