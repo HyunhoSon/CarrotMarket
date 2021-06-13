@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: WTB
-          image: username/WTB:latest
+          image: skcchhson.azurecr.io/WTB:latest
           ports:
             - containerPort: 8080
           readinessProbe:
@@ -35,3 +35,9 @@ spec:
             timeoutSeconds: 2
             periodSeconds: 5
             failureThreshold: 5
+          resources:
+            requests:
+              cpu: 300m
+              # memory: 256Mi
+            limits:
+              cpu: 500m

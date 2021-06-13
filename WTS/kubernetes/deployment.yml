@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: WTS
-          image: username/WTS:latest
+          image: skcchhson.azurecr.io/WTS:latest
           ports:
             - containerPort: 8080
           readinessProbe:
@@ -35,3 +35,9 @@ spec:
             timeoutSeconds: 2
             periodSeconds: 5
             failureThreshold: 5
+          resources:
+            request:
+              cpu: 200m
+            limits:
+              cpu: 500m
+              

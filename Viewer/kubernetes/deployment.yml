@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: Viewer
-          image: username/Viewer:latest
+          image: skcchhson.azurecr.io/Viewer:latest
           ports:
             - containerPort: 8080
           readinessProbe:
