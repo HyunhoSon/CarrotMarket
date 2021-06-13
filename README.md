@@ -262,6 +262,17 @@ server:
 
 ### CheckPoint6. Polyglot
 
+타 서비스와 별개로 Viewer 서비스는 sql db를 사용하였다.
+그 외 서비스는 (h2 사용)
+
+* Viewer 의 application.yml   
+![image](https://user-images.githubusercontent.com/9324206/121798354-b9bc8a80-cc60-11eb-812f-4b07338d3f7c.png)
+
+
+* MySQL 조회 결과   
+![image](https://user-images.githubusercontent.com/9324206/121798279-4fa3e580-cc60-11eb-9362-af6dd2f8307f.png)
+
+
 ## 운영
 
 ### CheckPoint7. Deploy/ Pipeline
