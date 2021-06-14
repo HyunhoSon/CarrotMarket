@@ -367,7 +367,24 @@ spec:
 
 
 
-### CheckPoint8. Circuit Breaker
+### CheckPoint8. Circuit Breaker   
+
+결제 시스템에 과부하가 생길 경우 Circuit Breaker 를 작동시켜, 구매요청을 진행할 수 없도록 설정하였다.   
+이때 시도한 요청은 Pay_Failed 라는 상태값으로 저장되어 추후 식별이 가능하도록 하였다.   
+테스트를 수행하기 위해 아래와 같이 price 조건을 만족 할 때에 시간지연이 
+
+* Application.yml 설정   
+![image](https://user-images.githubusercontent.com/9324206/121879726-1f377680-cd48-11eb-8e0b-69831216c8c1.png)
+
+* Pay Microservice 내에 시간지연 설정부분   
+![image](https://user-images.githubusercontent.com/9324206/121892065-3af64900-cd57-11eb-8903-351d60a93293.png)
+
+* 구매요청 시 Pay_Failed 발생 화면     
+price==2000 --> Requested   
+price==1500 --> Pay_Failed   
+![image](https://user-images.githubusercontent.com/9324206/121891931-100bf500-cd57-11eb-999e-de4602310396.png)
+
+
 
 ### CheckPoint9. Autoscale (HPA)
 
