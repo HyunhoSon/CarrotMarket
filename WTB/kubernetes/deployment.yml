@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: wtb
-          image: skcchhson.azurecr.io/wtb:latest
+          image: skcchhson.azurecr.io/wtb:v1
           ports:
             - containerPort: 8080
           readinessProbe:

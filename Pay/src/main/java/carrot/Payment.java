@@ -38,7 +38,19 @@ public class Payment {
         this.wtbId = wtbId;
     }
 
-
-
-
+    @PrePersist
+    void onPrePersist()
+    {
+        System.out.println(price);
+        //if(price==1500)
+        //{
+        //    try{
+        //        Thread.sleep(5000);
+        //    }
+        //    catch(Exception e){
+        //        e.printStackTrace();
+        //        System.out.println();
+        //    }
+        //}
+    }
 }

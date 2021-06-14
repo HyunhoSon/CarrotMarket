@@ -36,24 +36,23 @@ public class Wtb {
         
         carrot.external.Payment payment = new carrot.external.Payment();
         payment.setWtbId(this.wtbId);
-        payment.setPrice(10000);
+        payment.setPrice(this.price);
 
         try{
             WtbApplication.applicationContext.getBean(carrot.external.PaymentService.class)
             .pay(payment);
+            this.state="Requested";
         }
         catch(Exception e)
         {
             e.printStackTrace();
-            return;
+            this.state="Pay_Failed";
+            System.out.println("**** Payment Service TIMEOUT ****");
         }
-
-        this.state="Requested";
 
         WtbAdded wtbAdded = new WtbAdded();
         BeanUtils.copyProperties(this, wtbAdded);
         wtbAdded.publishAfterCommit();
-
         
     }
 
