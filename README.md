@@ -388,6 +388,42 @@ price==1500 --> Pay_Failed
 
 ### CheckPoint9. Autoscale (HPA)
 
+구매요청이 다수 발생할 경우 Autoscale을 이용하여 Pod Replica를 3개까지 확장하도록 하였다.   
+테스트를 위하여 pod 확장의 조건은 부하 50%로 지정하였다.
+
+* hpa.yml   
+```
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: wtb-hpa
+spec:
+  maxReplicas: 3
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: wtb
+  targetCPUUtilizationPercentage: 50
+```
+
+* hpa 정상 생성 확인   
+![image](https://user-images.githubusercontent.com/9324206/121895300-071d2280-cd5b-11eb-8a88-963d47b881d9.png)
+
+* siege 부하 테스트 결과 (100%)    
+siege 부하 테스트 command
+```
+siege -c100 -t60S -r10 --content-type "application/json" 'http://wtb:8080/wtbs POST {"productId":"1","price":"3000"}'
+```
+![image](https://user-images.githubusercontent.com/9324206/121897297-2fa61c00-cd5d-11eb-963b-6cc704f607a5.png)
+
+* siege 부하 테스트 중 pod 확장 모니터링   
+![image](https://user-images.githubusercontent.com/9324206/121897399-49dffa00-cd5d-11eb-8a19-12901b89004f.png)
+
+* siege 부하 테스트 후 pod 상태 및 hpa 상태 조회   
+![image](https://user-images.githubusercontent.com/9324206/121897601-827fd380-cd5d-11eb-9f59-af3f9d567659.png)
+
+
 ### CheckPoint10. Zero-downtime deploy (Readiness Probe)
 
 ### CheckPoint11. Config Map/ Persistence Volume
