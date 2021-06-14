@@ -375,18 +375,59 @@ spec:
 
 ### CheckPoint11. Config Map/ Persistence Volume
 
+WTS 서비스의 h2 DB를 파일 형태로 저장하기 위해 PVC 를 사용하였다.
+이를 위해 PVC 를 Yaml 파일을 통해 생성하고, deployment.yaml 파일에 Mount 경로를 정의하였으며   
+application.yaml 파일 내에 file 경로를 Mount Path 로 지정하였다.
+
+* PVC 생성 Yaml 파일   
+```
+# pvc.yaml
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: wts-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+```
+
+* deployment.yaml   
+  * Mount Path 지정   
+![image](https://user-images.githubusercontent.com/9324206/121813035-4d17af00-cca5-11eb-9ab2-cbc962ec435c.png)
+  * Mount 할 Volume 정보 지정   
+![image](https://user-images.githubusercontent.com/9324206/121813061-720c2200-cca5-11eb-980e-78f2e6f7f430.png)
+
+
+* application.yaml
+  * Docker Profile 의 h2 DB 경로 설정   
+![image](https://user-images.githubusercontent.com/9324206/121813097-8b14d300-cca5-11eb-9bbc-a6e2597b8d9f.png)
+
+* 정상 Mount 확인 (kubectl exec 이용)
+  * ls 로 디렉터리 확인   
+![image](https://user-images.githubusercontent.com/9324206/121813174-cfa06e80-cca5-11eb-9deb-53c7716b01f1.png)
+  * df 로 Mount 확인   
+![image](https://user-images.githubusercontent.com/9324206/121813189-e6df5c00-cca5-11eb-916d-863982bd7eb9.png)
+  * 해당 경로 내 db 파일 생성 확인   
+![image](https://user-images.githubusercontent.com/9324206/121813214-08d8de80-cca6-11eb-956e-650ee5d0c362.png)
+
+
+
 ### CheckPoint12. Self-healing (Liveness Probe)
+
+Self-healing 확인을 위한 Liveness Probe 옵션 변경 (Port 변경)
 
 * WTB Service Liveness Probe Port 변경 --> 9090   
 ![image](https://user-images.githubusercontent.com/9324206/121811923-f1e3bd80-cca0-11eb-8eee-269535bab61c.png)
 
-* 재배포(Deploy) 후 Pod Restart 확인
-
+* 재배포(Deploy) 후 Pod Restart 확인   
 ![image](https://user-images.githubusercontent.com/9324206/121812093-9a921d00-cca1-11eb-83e9-64c41ef03860.png)
 
 
-* Restart 원인 Liveness Probe 확인
-
+* Restart 원인 Liveness Probe 확인   
 ![image](https://user-images.githubusercontent.com/9324206/121812124-b4336480-cca1-11eb-8b66-ae5f11b5624e.png)
 
 
