@@ -426,6 +426,40 @@ siege -c100 -t60S -r10 --content-type "application/json" 'http://wtb:8080/wtbs P
 
 ### CheckPoint10. Zero-downtime deploy (Readiness Probe)
 
+WTB(구매요청) Microservice 내에 Readiness Probe를 설정, siege를 이용하여 부하를 준 후 image 버전 교체를 수행하여   
+Availability를 확인한다.
+
+* 이미지 변경 전 버전 확인   
+![image](https://user-images.githubusercontent.com/9324206/121902475-5155d200-cd62-11eb-9642-844cab6500a5.png)
+
+
+* 무정지 재배포를 위한 Readiness Probe 설정   
+![image](https://user-images.githubusercontent.com/9324206/121899373-549b8e80-cd5f-11eb-8f64-6c59d9996f6d.png)
+
+* siege 를 이용하여 -C1의 약한 부하를 가함    
+```
+siege -c1 -t180S -r100 --content-type "application/json" 'http://wtb:8080/wtbs POST {"productId":"1","price":"3000"}'
+```
+
+* image 버전을 변경   
+```
+kubectl set image deployment wtb wtb=skcchhson.azurecr.io/wtb:v2
+```
+
+* deploy 모니터링 수행
+```
+kubectl get deploy -l app=wtb -w
+```   
+![image](https://user-images.githubusercontent.com/9324206/121900662-9bd64f00-cd60-11eb-9801-4600b97b2b1c.png)
+
+* siege 부하 결과 확인 (100% Availability)   
+![image](https://user-images.githubusercontent.com/9324206/121901079-0e472f00-cd61-11eb-8990-312e1fd936b1.png)
+
+* 이미지 정상 변경 확인 (describe pod)   
+![image](https://user-images.githubusercontent.com/9324206/121901685-93324880-cd61-11eb-96b3-63a4aa5d72fa.png)
+
+
+
 ### CheckPoint11. Config Map/ Persistence Volume
 
 WTS 서비스의 h2 DB를 파일 형태로 저장하기 위해 PVC 를 사용하였다.
