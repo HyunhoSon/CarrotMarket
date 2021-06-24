@@ -1,5 +1,8 @@
 # CarrotMarket
 
+![image](https://user-images.githubusercontent.com/9324206/123186760-cc8e5500-d4d3-11eb-8b92-e36f44541f0d.png)
+
+
 > 중고 물품을 거래하기 위한 OpenMarket 을 단순화 하여 Microservice 를 이용하여 구현. ( 개인과제 )
 
 ## Check Point
