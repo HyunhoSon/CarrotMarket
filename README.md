@@ -365,6 +365,32 @@ spec:
               cpu: 500m
 ```
 
+* Deploy 수행
+
+```
+
+cd /gateway/kubernates
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+cd ../WTB/kubernates
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+cd ../WTS/kubernates
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+cd ../Pay/kubernates
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+cd ../Viewer/kubernates
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+```
+
 * Deploy 완료   
 ![image](https://user-images.githubusercontent.com/9324206/121811705-260aae80-cca0-11eb-9060-d090830400e6.png)
 
